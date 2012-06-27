@@ -1,4 +1,4 @@
-module Artes.CSV(processCSV) where
+module Frogurth.CSV(processCSV) where
 
 import Data.Map(fromList)
 
