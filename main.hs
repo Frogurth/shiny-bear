@@ -1,5 +1,5 @@
 import System.Environment( getArgs )
-import Artes.CSV
+import Frogurth.CSV
 
 main = do
   args <- getArgs
