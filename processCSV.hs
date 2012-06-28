@@ -12,5 +12,5 @@ splitOn d s = let str = takeWhile (/= d) s
 processCSV :: Char -> [String] -> [Map String String]
 processCSV d ls = let splitKomma = splitOn d
                       h = splitKomma $ head ls
-                      mapin = fromList . zip h
-                  in map (mapin . splitKomma) (tail ls) 
+                      mapping = fromList . zip h
+                  in map (mapping . splitKomma) (tail ls) 
