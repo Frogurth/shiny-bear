@@ -1,6 +1,6 @@
 module Artes.CSV(processCSV) where
 
-import Data.Map(fromList)
+import Data.Map(Map, fromList)
 
 splitOn :: Char -> String -> [String]
 splitOn _ "" = []
@@ -9,6 +9,7 @@ splitOn d s = let str = takeWhile (/= d) s
                   rest = drop len s
               in str : (splitOn d rest)
 
+processCSV :: Char -> [String] -> [Map String String]
 processCSV d ls = let splitKomma = splitOn d
                       h = splitKomma $ head ls
                       mapin = fromList . zip h
