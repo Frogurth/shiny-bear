@@ -12,12 +12,12 @@ splitKomma s = let str = takeWhile (/= ',') s
                    rest = drop len s
                in str : (splitKomma rest)
 
-processCSV :: Char -> [String] -> Either [String] [Map String String]
-processCSV d ls = let h = splitKomma $ head ls
-                      results = map (parseLine h (tail ls)) (tail ls)
-                  in if lefts results == []
-                     then Right $ rights results
-                     else Left $ lefts results
+processCSV :: [String] -> Either [String] [Map String String]
+processCSV ls = let h = splitKomma $ head ls
+                    results = map (parseLine h (tail ls)) (tail ls)
+                in if lefts results == []
+                   then Right $ rights results
+                   else Left $ lefts results
 
 
 parseLine :: [String] -> [String] -> String -> Either String (Map String String)
