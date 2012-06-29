@@ -1,4 +1,5 @@
 import System.Environment( getArgs )
+import qualified Data.Map
 import Frogurth.CSV
 
 main = do
