@@ -5,15 +5,15 @@ import Data.Maybe( fromJust )
 import Data.List( elemIndex )
 import Data.Either( Either(..), lefts, rights )
 
-splitKomma :: String -> [String]
-splitKomma "" = []
-splitKomma s = let str = takeWhile (/= ',') s
+splitComma :: String -> [String]
+splitComma "" = []
+splitComma s = let str = takeWhile (/= ',') s
                    len = (length str) + 1
                    rest = drop len s
-               in str : (splitKomma rest)
+               in str : (splitComma rest)
 
 processCSV :: [String] -> Either [String] [Map String String]
-processCSV ls = let h = splitKomma $ head ls
+processCSV ls = let h = splitComma $ head ls
                     results = map (parseLine h (tail ls)) (tail ls)
                 in if lefts results == []
                    then Right $ rights results
@@ -22,7 +22,7 @@ processCSV ls = let h = splitKomma $ head ls
 
 parseLine :: [String] -> [String] -> String -> Either String (Map String String)
 parseLine header ls line = let mapping = fromList . zip header
-                               splitLine = splitKomma line
+                               splitLine = splitComma line
                                getIndex = show . (+2) $ fromJust $ elemIndex line ls
                            in if length header > length splitLine
                               then Left $ "to few values on line " ++ getIndex 
