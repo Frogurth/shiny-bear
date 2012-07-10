@@ -17,7 +17,7 @@ processCSV ls = let h = splitOn ',' $ head ls
                    then Right $ rights results
                    else Left $ lefts results
 
-parseLine header ls line = let mapping = fromList . zip header
+parseLine header ls line = let withKeys = fromList . zip header
                                splitLine = splitOn ',' line
                                getIndex = show . (+2) $ fromJust $ elemIndex line ls
                            in if length header > length splitLine
