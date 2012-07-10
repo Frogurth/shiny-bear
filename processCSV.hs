@@ -1,31 +1,27 @@
-module Frogurth.CSV( processCSV ) where
+module Frogurth.CSV( processCSV ) where 
 
 import Data.Map( Map, fromList )
 import Data.Maybe( fromJust )
 import Data.List( elemIndex )
 import Data.Either( Either(..), lefts, rights )
 
-splitKomma :: String -> [String]
-splitKomma "" = []
-splitKomma s = let str = takeWhile (/= ',') s
-                   len = (length str) + 1
-                   rest = drop len s
-               in str : (splitKomma rest)
+splitOn d s 
+    | s == [] = []
+    | otherwise = str : (splitOn d rest)
+	where str = takeWhile (/=d) s
+	      rest = drop ((length str) + 1) s
 
-processCSV :: [String] -> Either [String] [Map String String]
-processCSV ls = let h = splitKomma $ head ls
+processCSV ls = let h = splitOn ',' $ head ls
                     results = map (parseLine h (tail ls)) (tail ls)
                 in if lefts results == []
                    then Right $ rights results
                    else Left $ lefts results
 
-
-parseLine :: [String] -> [String] -> String -> Either String (Map String String)
-parseLine header ls line = let mapping = fromList . zip header
-                               splitLine = splitKomma line
+parseLine header ls line = let withKeys = fromList . zip header
+                               splitLine = splitOn ',' line
                                getIndex = show . (+2) $ fromJust $ elemIndex line ls
                            in if length header > length splitLine
                               then Left $ "to few values on line " ++ getIndex 
                               else if length header < length splitLine
                                    then Left $ "to many values on line " ++ getIndex  
-                                   else Right $ mapping splitLine
+                                   else Right $ withKeys splitLine
